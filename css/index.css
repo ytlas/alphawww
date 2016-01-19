@@ -1,3 +1,45 @@
+/* Miscellanious */
 body{
-    background:grey;
+    padding:0;
+    margin:0;
+    font-size:1em;
+    color:white;
+    cursor:default;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-image:url(../img/pattern.png);
 }
+
+/* Header */
+header{
+}
+header #title{
+    text-align:center;
+}
+
+/* Nav */
+nav ul{
+    margin:0;
+    padding:0;
+    display:block;
+    background:rgba(0,0,0,0.7);
+    height:50px;
+}
+nav .navButton{
+    padding:0 10% 0 10%;
+    display:block;
+    float:left;
+    line-height:50px;
+}
+
+nav .navButton:hover{
+    transition:all 1s ease;
+    background:rgba(0,0,0,1);
+    cursor:pointer;
+}
+
+/* Body */
+
+
+/* Footer */
