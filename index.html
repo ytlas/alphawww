@@ -8,18 +8,45 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
 	<link rel="stylesheet" href="css/index.css">
     </head>
-    <body>
+    <body ng-controller="LSController">
 	<header>
 	    <h1 id="title">LeafScript</h1>
+	    <h3>Anonymous file sharing.</h3>
 	</header>
 	<nav>
 	    <ul>
-		<li class="navButton">Home</li>
-		<li class="navButton">Home</li>
-		<li class="navButton">Home</li>
+		<li ng-hide="loggedIn" ng-click="onlyShow('login')">Log in</li>
+		<li ng-hide="loggedIn" ng-click="onlyShow('register')">Register</li>
 	    </ul>
 	</nav>
+	<section>
+	    <article ng-show="display['welcome']">
+		<h2>Welcome to LeafScript!</h2>
+		<p>This site is used for sharing encrypted files. It may also be used for communication between users.</p>
+	    </article>
+	    <article ng-show="display['login']">
+		<h3>LOGIN</h3>
+		Username:
+		<input type="text">
+		<br>
+		Password:
+		<input type="password">
+	    </article>
+	    <article ng-show="display['register']">
+		<h3>REGISTER</h3>
+		Username:
+		<input type="text">
+		<br>
+		E-mail:
+		<input type="email">
+		<br>
+		Password:
+		<input type="password">
+	    </article>
+	</section>
+	<footer>
+	    All source code on <a href="https://github.com/ytlas">my github profile</a>.
+	</footer>
     </body>
-    <script src="js/script.js"></script>
-    <script src="js/controller.js"></script>
+    <script src="js/index.js"></script>
 </html>

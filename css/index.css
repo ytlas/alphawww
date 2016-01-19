@@ -1,7 +1,8 @@
 /* Miscellanious */
 body{
     padding:0;
-    margin:0;
+    margin:30%;
+    margin-top:0;
     font-size:1em;
     color:white;
     cursor:default;
@@ -13,12 +14,13 @@ body{
 
 /* Header */
 header{
-}
-header #title{
     text-align:center;
 }
 
 /* Nav */
+nav{
+    margin-bottom:20px;
+}
 nav ul{
     margin:0;
     padding:0;
@@ -26,20 +28,31 @@ nav ul{
     background:rgba(0,0,0,0.7);
     height:50px;
 }
-nav .navButton{
-    padding:0 10% 0 10%;
+nav li{
     display:block;
     float:left;
     line-height:50px;
+    text-align:center;
+    width:50%;
 }
 
-nav .navButton:hover{
+nav li:hover{
     transition:all 1s ease;
     background:rgba(0,0,0,1);
     cursor:pointer;
 }
 
-/* Body */
-
+/* Section */
+section{
+    margin-bottom:20px;
+    text-align:left;
+    padding:20px;
+    background:rgba(0,0,0,0.7);
+}
 
 /* Footer */
+footer{
+    padding:20px;
+    clear:both;
+    background:rgba(0,0,0,0.7);
+}
