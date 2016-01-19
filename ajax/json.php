@@ -11,55 +11,59 @@ function getNameById($user_id){
 }
 $secret='solrun';
 $un=NULL;
-if($_COOKIE['login']){
-    list($c_username,$cookie_hash)=split(',',$_COOKIE['login']);
-    if(crypt($c_username,$secret)==$cookie_hash){
-	$un=$c_username;
+if($_COOKIE['user_login']){
+    list($cuser_name,$cookie_hash)=split(',',$_COOKIE['user_login']);
+    if(crypt($cuser_name,$secret)==$cookie_hash){
+	$un=$cuser_name;
     }
 }
 if(isset($_GET['request'])){
     $request=$_GET['request'];
-    $con=new mysqli("localhost","adam","Qw!kmdo<","leafscript");
+    $con=con();
     date_default_timezone_set('Europe/Stockholm');
     if($con->connect_error){
-	die("Connection failed: ".$con->connect_error);
+	die('Connection failed: '.$con->connect_error);
 	exit;
     }
     else{
-	if($request==="test"){
-	    echo "Success";
-	}
-	if($request==="login" && !$un && isset($_GET['username']) && isset($_GET['password'])){
-	    $username=$con->real_escape_string($_GET['username']);
-	    $password=$con->real_escape_string(acrypt($_GET['password']));
-	    $result=$con->query("SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1");
-	    if(mysqli_num_rows($result)>0){
+	if(!$un&&$request==='user_login'&&isset($_GET['user_name'])&&isset($_GET['user_pass'])){
+	    $user_name=$con->real_escape_string($_GET['user_name']);
+	    $user_pass=$con->real_escape_string(acrypt($_GET['user_pass']));
+	    $user_active=date('Y-m-d H:i:s');
+	    $user_ip=$_SERVER['REMOTE_ADDR'];
+	    $result=$con->query("SELECT * FROM user WHERE user_name='$user_name' AND user_pass='$user_pass' LIMIT 1");
+	    if($result->num_rows>0){
 		$row=$result->fetch_assoc();
-		$id=$row['id'];
-		setcookie('login',$username.','.crypt($username,$secret),time()+(86400*30),"/");
-		echo '{ "uid": "'.$username.'" }';
+		$id=$row['user_id'];
+		setcookie('user_login',$user_name.','.crypt($user_name,$secret),time()+(86400*30),"/");
+		echo '{"uid":"'.$user_name.'"}';
 	    }
 	}
-	elseif($request==="logout" && $un){
-	    echo $un."<br>".$_COOKIE['login'];
-	    unset($_COOKIE['login']);
-	    setcookie('login',null,-1,'/');
-	    echo $_COOKIE['login'];
+	elseif($un&&$request==='user_login'){
+	    echo '{"uid":"'.$un.'"}';
 	}
-	elseif($request==="users"){
-	    $result=$con->query("SELECT * FROM user");
-	    $outp="";
-	    while($row=$result->fetch_array()){
-		if($outp!=""){$outp.=",";}
-		$outp.='{"username":"'.$row["user_name"].'",';
-		$outp.='"date":"'.$row["user_registered"].'"}';
+	elseif($un&&$request==='user_logout'){
+	    //echo $un."<br>".$_COOKIE['user_login'];
+	    unset($_COOKIE['user_login']);
+	    setcookie('user_login',null,-1,'/');
+	    //echo $_COOKIE['user_login'];
+	    echo "Attempted to log ".$un." out.";
+	}
+	elseif(!$un&&$request==='user_register'&&isset($_GET['user_name'])&&isset($_GET['user_pass'])){
+	    $user_name=$con->real_escape_string($_GET['user_name']);
+	    $user_pass=$con->real_escape_string(acrypt($_GET['user_pass']));
+	    $user_registered=date('Y-m-d H:i:s');
+	    $user_ip=$_SERVER['REMOTE_ADDR'];
+	    if(strlen($user_name)>2&&preg_match("#^[a-zA-Z0-9\-\_\.]+$#",$user_name)&&mysqli_num_rows($con->query("SELECT * FROM user WHERE user_name='$user_name'"))==0){
+		if($con->query("INSERT INTO user (user_name,user_pass,user_ip,user_rank,user_registered,user_active) VALUES ('$user_name','$user_pass','$user_ip',0,'$user_registered','$user_registered')")){
+		    echo "{'user_name':".$user_name."}";
+		}
 	    }
-	    $outp='{"users":['.$outp.']}';
-	    echo $outp;
 	}
-	$con->close();
+	else{
+	    echo "No valid request?";
+	}
     }
-}
-else{
+    $con->close();
 }
 ?>

@@ -2,6 +2,8 @@ var app=angular.module('LSApp',[]);
 app.controller('LSController',function($scope,$http,$interval){
     // "Global" variable initialization
     $scope.loggedIn=false;
+    $scope.user_name;
+    $scope.user_rank;
     // Display dictionary
     $scope.display={
 	welcome:true,
