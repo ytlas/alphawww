@@ -1,7 +1,7 @@
 /* Miscellanious */
 body{
     padding:0;
-    margin:30%;
+    margin:10%;
     margin-top:0;
     font-size:1em;
     color:white;
@@ -33,7 +33,7 @@ nav li{
     float:left;
     line-height:50px;
     text-align:center;
-    width:50%;
+    width:100px;
 }
 
 nav li:hover{

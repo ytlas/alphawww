@@ -36,11 +36,11 @@ if(isset($_GET['request'])){
 		$row=$result->fetch_assoc();
 		$id=$row['user_id'];
 		setcookie('user_login',$user_name.','.crypt($user_name,$secret),time()+(86400*30),"/");
-		echo '{"uid":"'.$user_name.'"}';
+		echo '{"user_name":"'.$user_name.'"}';
 	    }
 	}
 	elseif($un&&$request==='user_login'){
-	    echo '{"uid":"'.$un.'"}';
+	    echo '{"user_name":"'.$un.'"}';
 	}
 	elseif($un&&$request==='user_logout'){
 	    //echo $un."<br>".$_COOKIE['user_login'];

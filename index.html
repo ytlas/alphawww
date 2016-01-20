@@ -4,19 +4,21 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Dev</title>
+	<title>LeafScript</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
 	<link rel="stylesheet" href="css/index.css">
     </head>
     <body ng-controller="LSController">
 	<header>
 	    <h1 id="title">LeafScript</h1>
-	    <h3>Anonymous file sharing.</h3>
+	    <h3>Anonymous file sharing</h3>
 	</header>
 	<nav>
 	    <ul>
+		<li ng-show="loggedIn">{{user_name}}</li>
 		<li ng-hide="loggedIn" ng-click="onlyShow('login')">Log in</li>
 		<li ng-hide="loggedIn" ng-click="onlyShow('register')">Register</li>
+		<li ng-click="onlyShow('teamspeak')">TeamSpeak</li>
 	    </ul>
 	</nav>
 	<section>
@@ -27,10 +29,12 @@
 	    <article ng-show="display['login']">
 		<h3>LOGIN</h3>
 		Username:
-		<input type="text">
+		<input ng-model="user_name" type="text">
 		<br>
 		Password:
-		<input type="password">
+		<input ng-model="user_pass" type="password">
+		<br>
+		<button ng-click="user_login()">Login</button>
 	    </article>
 	    <article ng-show="display['register']">
 		<h3>REGISTER</h3>
@@ -42,10 +46,17 @@
 		<br>
 		Password:
 		<input type="password">
+		<br>
+		<button ng-click="user_register()">Register</button>
+	    </article>
+	    <article ng-show="display['teamspeak']">
+		<iframe src="http://cache.www.gametracker.com/components/html0/?host=leafscript.net:9987&bgColor=333333&fontColor=CCCCCC&titleBgColor=222222&titleColor=FF9900&borderColor=555555&linkColor=FFCC00&borderLinkColor=222222&showMap=0&currentPlayersHeight=1000&showCurrPlayers=1&showTopPlayers=0&showBlogs=0&width=500" frameborder="0" scrolling="no" width="500" height="1188"></iframe>
 	    </article>
 	</section>
 	<footer>
-	    All source code on <a href="https://github.com/ytlas">my github profile</a>.
+	    This site is currently in development and might not be usable.
+	    <br>
+	    All source code is available for everyone on <a href="https://github.com/ytlas">my github profile</a>.
 	</footer>
     </body>
     <script src="js/index.js"></script>
