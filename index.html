@@ -40,13 +40,13 @@
 	    <article ng-show="display['register']">
 		<h3>REGISTER</h3>
 		Username:
-		<input type="text">
+		<input ng-model="user_name" type="text">
 		<br>
 		E-mail:
-		<input type="email">
+		<input ng-model="user_email" type="email">
 		<br>
 		Password:
-		<input type="password">
+		<input ng-model="user_pass" type="password">
 		<br>
 		<button ng-click="user_register()">Register</button>
 	    </article>

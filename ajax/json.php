@@ -34,9 +34,17 @@ if(isset($_GET['request'])){
 	    $result=$con->query("SELECT * FROM user WHERE user_name='$user_name' AND user_pass='$user_pass' LIMIT 1");
 	    if($result->num_rows>0){
 		$row=$result->fetch_assoc();
-		$id=$row['user_id'];
-		setcookie('user_login',$user_name.','.crypt($user_name,$secret),time()+(86400*30),"/");
-		echo '{"user_name":"'.$user_name.'"}';
+		$user_rank=$row['user_rank'];
+		if($user_rank==0){
+		    echo '{"user_rank":'.$user_rank.',';
+		    echo '"user_name":"'.$user_name.'"}';
+		}
+		else{
+		    $id=$row['user_id'];
+		    setcookie('user_login',$user_name.','.crypt($user_name,$secret),time()+(86400*30),"/");
+		    echo '{"user_rank":'.$user_rank.',';
+		    echo '"user_name":"'.$user_name.'"}';
+		}
 	    }
 	}
 	elseif($un&&$request==='user_login'){
@@ -49,14 +57,33 @@ if(isset($_GET['request'])){
 	    //echo $_COOKIE['user_login'];
 	    echo "Attempted to log ".$un." out.";
 	}
-	elseif(!$un&&$request==='user_register'&&isset($_GET['user_name'])&&isset($_GET['user_pass'])){
+	elseif(!$un&&$request==='user_register'&&isset($_GET['user_name'])&&isset($_GET['user_pass'])&&isset($_GET['user_email'])){
 	    $user_name=$con->real_escape_string($_GET['user_name']);
 	    $user_pass=$con->real_escape_string(acrypt($_GET['user_pass']));
+	    $user_email=$con->real_escape_string($_GET['user_email']);
 	    $user_registered=date('Y-m-d H:i:s');
 	    $user_ip=$_SERVER['REMOTE_ADDR'];
-	    if(strlen($user_name)>2&&preg_match("#^[a-zA-Z0-9\-\_\.]+$#",$user_name)&&mysqli_num_rows($con->query("SELECT * FROM user WHERE user_name='$user_name'"))==0){
-		if($con->query("INSERT INTO user (user_name,user_pass,user_ip,user_rank,user_registered,user_active) VALUES ('$user_name','$user_pass','$user_ip',0,'$user_registered','$user_registered')")){
-		    echo "{'user_name':".$user_name."}";
+	    if(strlen($user_name)>2&&preg_match("#^[a-zA-Z0-9\-\_\.]+$#",$user_name)&&mysqli_num_rows($con->query("SELECT * FROM user WHERE user_name='$user_name' OR user_email='$user_email'"))==0&&strlen($_GET['user_pass'])>6&&strlen($_GET['user_pass'])<31){
+		$user_activate_string=trim(acrypt(rand(1,100).$user_name),'.');
+		if($con->query("INSERT INTO user (user_name,user_pass,user_email,user_ip,user_rank,user_registered,user_active,user_activate_string) VALUES ('$user_name','$user_pass','$user_email','$user_ip',0,'$user_registered','$user_registered','$user_activate_string')")){
+		    $mailMessage='
+			Hello '.$user_name.', click this link to activate your account.
+			http://leafscript.net/ajax/json.php?request=user_activate&user_activate_string='.$user_activate_string.'
+		    ';
+		    mail("$user_email","Account activation","$mailMessage");
+		    echo '{"user_name":"'.$user_name.'","result":"success"}';
+		}
+	    }
+	    else{
+		echo '{"result":"failed"}';
+	    }
+	}
+	elseif(!$un&&$request==='user_activate'&&isset($_GET['user_activate_string'])){
+	    $user_activate_string=$con->real_escape_string($_GET['user_activate_string']);
+	    $result=$con->query("SELECT * FROM user WHERE user_activate_string='$user_activate_string'");
+	    if(mysqli_num_rows($result)>0){
+		if($con->query("UPDATE user SET user_rank=1 WHERE user_activate_string='$user_activate_string'")){
+		    echo "Success!";
 		}
 	    }
 	}
