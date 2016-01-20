@@ -16,6 +16,7 @@
 	<nav>
 	    <ul>
 		<li ng-show="loggedIn">{{user_name}}</li>
+		<li ng-show="loggedIn" ng-click="user_logout()">Log out</li>
 		<li ng-hide="loggedIn" ng-click="onlyShow('login')">Log in</li>
 		<li ng-hide="loggedIn" ng-click="onlyShow('register')">Register</li>
 		<li ng-click="onlyShow('teamspeak')">TeamSpeak</li>

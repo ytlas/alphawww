@@ -46,9 +46,17 @@ app.controller('LSController',function($scope,$http,$interval){
 	    }
 	});
     }
+    // Register function
     $scope.user_register=function(){
 	$http.get("ajax/json.phṕ?request=user_register&user_name="+$scope.user_name+"&user_pass="+$scope.user_pass).success(function(response){
 	    
+	});
+    }
+
+    // Log out function
+    $scope.user_logout=function(){
+	$http.get("ajax/json.php?request=user_logout").success(function(response){
+	    $scope.loggedIn=false;
 	});
     }
 });
