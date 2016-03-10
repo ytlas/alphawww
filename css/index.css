@@ -1,15 +1,23 @@
 /* Miscellanious */
+@font-face{
+    font-family:custom;
+    src:url(../fonts/font.ttf);
+}
+*{
+    cursor:default;
+}
 body{
-    padding:0;
-    margin:10%;
+    font-family:Courier;
+    padding:20px;
+    margin:auto;
     margin-top:0;
     font-size:1em;
     color:white;
-    cursor:default;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     background-image:url(../img/pattern.png);
+    max-width:800px;
 }
 
 /* Header */
@@ -33,12 +41,12 @@ nav li{
     float:left;
     line-height:50px;
     text-align:center;
-    width:100px;
+    padding-right:10px;
+    padding-left:10px;
 }
 
 nav li:hover{
-    transition:all 1s ease;
-    background:rgba(0,0,0,1);
+    text-decoration:underline;
     cursor:pointer;
 }
 
@@ -48,6 +56,52 @@ section{
     text-align:left;
     padding:20px;
     background:rgba(0,0,0,0.7);
+}
+section .logInput{
+    -webkit-appearance:none;
+    border-radius:0;
+    display: table-cell;
+    vertical-align: middle;
+    height: 20px;
+    width:150px;
+    border:none;
+    cursor:default;
+}
+article button{
+    -webkit-appearance:none;
+    cursor:pointer;
+    background:white;
+    color:black;
+    border:none;
+    height:25px;
+    width:150px;
+}
+article h1,article h3{
+    margin-top:0;
+    padding:0;
+}
+
+#userPage .user_modify{
+    color:blue;
+    text-decoration:underline;
+    font-size:0.8em;
+    cursor:pointer;
+}
+#userPage .user_modify:hover{
+    color:cyan;
+}
+#userPage button{
+    width:50px;
+}
+#userPage input{
+    margin-right:2.5px;
+    margin-bottom:2.5px;
+}
+#userPage button,input{
+    height:20px;
+    padding:0;
+    margin:0;
+    border:0;
 }
 
 /* Footer */

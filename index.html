@@ -15,10 +15,11 @@
 	</header>
 	<nav>
 	    <ul>
-		<li ng-show="loggedIn">{{user_name}}</li>
-		<li ng-show="loggedIn" ng-click="user_logout()">Log out</li>
-		<li ng-hide="loggedIn" ng-click="onlyShow('login')">Log in</li>
-		<li ng-hide="loggedIn" ng-click="onlyShow('register')">Register</li>
+		<li ng-click="onlyShow('welcome')">welcome</li>
+		<li ng-show="loggedIn" ng-click="onlyShow('userPage')">user: {{user_name}}</li>
+		<li ng-hide="loggedIn" ng-click="onlyShow('login')">log in</li>
+		<li ng-hide="loggedIn" ng-click="onlyShow('register')">register</li>
+		<li ng-show="loggedIn" ng-click="user_logout()">log out</li>
 		<li ng-click="onlyShow('teamspeak')">TeamSpeak</li>
 	    </ul>
 	</nav>
@@ -30,25 +31,64 @@
 	    <article ng-show="display['login']">
 		<h3>LOGIN</h3>
 		Username:
-		<input ng-model="user_name" type="text">
+		<input class="logInput" ng-model="user_name" type="text">
+		<br>
 		<br>
 		Password:
-		<input ng-model="user_pass" type="password">
+		<input class="logInput" ng-model="user_pass" type="password">
+		<br>
 		<br>
 		<button ng-click="user_login()">Login</button>
 	    </article>
 	    <article ng-show="display['register']">
 		<h3>REGISTER</h3>
 		Username:
-		<input ng-model="user_name" type="text">
+		<input class="logInput" ng-model="user_name" type="text">
+		<br>
 		<br>
 		E-mail:
-		<input ng-model="user_email" type="email">
+		<input class="logInput" ng-model="user_email" type="email">
+		<br>
 		<br>
 		Password:
-		<input ng-model="user_pass" type="password">
+		<input class="logInput" ng-model="user_pass" type="password">
+		<br>
 		<br>
 		<button ng-click="user_register()">Register</button>
+	    </article>
+	    <article ng-show="display['userPage']" id="userPage">
+		<span class="user_modify" ng-click="toggleEditMode()">Edit</span>
+		<br>
+		<br>
+		Username:
+		<span ng-show="editMode">
+		    <br>
+		    <input ng-model="user_name">
+		    <br>
+		    <button ng-click="change('user_name')">Change!</button>
+		</span>
+		<span ng-hide="editMode" ng-bind="user_name"></span>
+		<br>
+		<br>
+		E-mail:
+		<span ng-show="editMode">
+		    <br>
+		    <input ng-model="user_email">
+		    <br>
+		    <button ng-click="change('user_email')">Change!</button>
+		</span>
+		<span ng-hide="editMode" ng-bind="user_email"></span>
+		<br>
+		<br>
+		Password: <span ng-hide="editMode">[HIDDEN]</span>
+		<span ng-show="editMode">
+		    <br>
+		    <input type="text" placeholder="Current password">
+		    <br>
+		    <input type="text" placeholder="New password">
+		    <br>
+		    <button>Change!</button>
+		</span>
 	    </article>
 	    <article ng-show="display['teamspeak']">
 		<iframe src="http://cache.www.gametracker.com/components/html0/?host=leafscript.net:9987&bgColor=333333&fontColor=CCCCCC&titleBgColor=222222&titleColor=FF9900&borderColor=555555&linkColor=FFCC00&borderLinkColor=222222&showMap=0&currentPlayersHeight=1000&showCurrPlayers=1&showTopPlayers=0&showBlogs=0&width=500" frameborder="0" scrolling="no" width="500" height="1188"></iframe>
